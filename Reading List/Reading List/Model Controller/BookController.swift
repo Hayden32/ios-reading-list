@@ -17,18 +17,19 @@ class BookController {
         saveToPersistantStore()
     }
     
-    func delete(of book: Book) {
+    func delete(book: Book) {
         guard let index = books.firstIndex(of: book) else { return }
         books.remove(at: index)
         
         saveToPersistantStore()
     }
     
-//    func updateHasBeenRead(for book: Book) {
-//        book.hasBeenRead = !book.hasBeenRead
-//
-//        saveToPersistantStore()
-//    }
+    func updateHasBeenRead(for book: Book) {
+        guard let index = books.firstIndex(of: book) else { return }
+        books[index].hasBeenRead = !books[index].hasBeenRead
+
+        saveToPersistantStore()
+    }
     
     func update(book: Book, reasonToRead: String, hasBeenRead: Bool) {
         guard let index = books.index(of: book) else { return }
@@ -73,6 +74,14 @@ class BookController {
         print("Documents: \(documents.path)")
         
         return documents.appendingPathComponent("readingList.plist")
+    }
+    
+    var readBooks: [Book] {
+        return books.filter({$0.hasBeenRead == true})
+    }
+    
+    var unreadBooks: [Book] {
+        return books.filter({$0.hasBeenRead == false})
     }
     
     var books: [Book] = []

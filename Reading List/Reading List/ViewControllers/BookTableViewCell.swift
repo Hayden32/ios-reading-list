@@ -31,5 +31,9 @@ class BookTableViewCell: UITableViewCell {
     
     weak var delegate: BookTableViewCellDelegate?
     
-    var book: Book?
+    var book: Book? {
+        didSet {
+            updateViews()
+        }
+    }
 }

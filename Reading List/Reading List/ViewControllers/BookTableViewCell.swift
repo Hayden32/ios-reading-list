@@ -10,20 +10,26 @@ import UIKit
 
 class BookTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    @IBAction func checkboxButtonPressed(_ sender: Any) {
+    private func updateViews() {
+        guard let book = book else { return }
         
+        bookLabel.text = book.title
+        if book.hasBeenRead == true {
+            checkboxButton.setImage(UIImage(named: "checked"), for: .normal)
+        }   else {
+            checkboxButton.setImage(UIImage(named: "unchecked"), for: .normal)
+        }
+        
+    }
+    
+    @IBAction func checkboxButtonPressed(_ sender: Any) {
+        delegate?.toggleHasBeenRead(for: self)
     }
     
     @IBOutlet weak var bookLabel: UILabel!
     @IBOutlet weak var checkboxButton: UIButton!
+    
+    weak var delegate: BookTableViewCellDelegate?
+    
+    var book: Book?
 }
